@@ -1,9 +1,0 @@
-*.swp
-*.a
-
-*.txt
-CMakeFiles
-Makefile
-cmake_install.cmake
-
-main*
