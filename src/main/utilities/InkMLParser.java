@@ -1,11 +1,10 @@
 package main.utilities;
 
-import main.utilities.traces.Point;
-import main.utilities.traces.Trace;
-
 public class InkMLParser{
   public InkMLParser(String xmlData){
     xmlData_ = xmlData;
+
+    traceGroup_ = new TraceGroupSWT();
   }
 
   public void parse(){
@@ -16,7 +15,7 @@ public class InkMLParser{
     while(startOfTrace != -1){
       String[] traceData = xmlData.substring(startOfTrace + 7, endOfTrace).split(", "); // ("<trace>").length = 7.
 
-      Trace trace = new Trace();
+      TraceSWT trace = new TraceSWT();
       for(int i = 0;i < traceData.length;i++){
         double x = Double.parseDouble(traceData[i].split(" ")[0]);
         double y = Double.parseDouble(traceData[i].split(" ")[1]);

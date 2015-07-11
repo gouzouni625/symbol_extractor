@@ -2,8 +2,8 @@ package main.utilities;
 
 import java.util.ArrayList;
 
-import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 
 public class TraceGroupSWT{
     public TraceGroupSWT(){
@@ -126,7 +126,7 @@ public class TraceGroupSWT{
       return (new Point(centroidX, centroidY));
     }
 
-    public Image print(Device device, int imageWidth, int imageHeight){
+    public void print(GC gc, Color[] colors, int[] indices){
       // Work on a copy of this trace group.
       TraceGroupSWT traceGroup = new TraceGroupSWT(this);
 
@@ -147,13 +147,52 @@ public class TraceGroupSWT{
         height = 100;
       }
 
-      Image image = new Image(device, imageWidth, imageHeight);
-
-      for(int i = 0;i < traceGroup.size();i++){
-        ((TraceSWT)(traceGroup.get(i))).print(image);
+      if(indices == null){
+        if(colors == null){
+          for(int i = 0;i < traceGroup.size();i++){
+            traceGroup.get(i).print(gc, gc.getForeground(), (int)width, (int)height);
+          }
+        }
+        else if(colors.length == 1){
+          for(int i = 0;i < traceGroup.size();i++){
+            traceGroup.get(i).print(gc, colors[0], (int)width, (int)height);
+          }
+        }
+        else{
+          for(int i = 0;i < traceGroup.size();i++){
+            traceGroup.get(i).print(gc, colors[i], (int)width, (int)height);
+          }
+        }
+      }
+      else if(indices.length == 1){
+        if(colors == null){
+          traceGroup.get(indices[0]).print(gc, gc.getForeground(), (int)width, (int)height);
+        }
+        else if(colors.length == 1){
+          traceGroup.get(indices[0]).print(gc, colors[0], (int)width, (int)height);
+        }
+        else{
+          traceGroup.get(indices[0]).print(gc, colors[0], (int)width, (int)height);
+        }
+      }
+      else{
+        if(colors == null){
+          for(int i = 0;i < indices.length;i++){
+            traceGroup.get(indices[i]).print(gc, gc.getForeground(), (int)width, (int)height);
+          }
+        }
+        else if(colors.length == 1){
+          for(int i = 0;i < indices.length;i++){
+            traceGroup.get(indices[i]).print(gc, colors[0], (int)width, (int)height);
+          }
+        }
+        else{
+          for(int i = 0;i < indices.length;i++){
+            traceGroup.get(indices[i]).print(gc, colors[i], (int)width, (int)height);
+          }
+        }
       }
 
-      return image;
     }
 
     private ArrayList<TraceSWT> traces_;

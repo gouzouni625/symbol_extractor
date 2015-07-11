@@ -2,8 +2,8 @@ package main.utilities;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
 
 public class TraceSWT{
   public TraceSWT(){
@@ -102,15 +102,16 @@ public class TraceSWT{
     return (new Point(centroidX, centroidY));
   }
 
-  public Image print(Image image){
-    GC gc = new GC(image);
+  public void print(GC gc, Color color, int width, int height){
+    Color oldColor = gc.getForeground();
+    gc.setForeground(color);
 
     for(int i = 0;i < points_.size() - 1;i++){
-      gc.drawLine((int)points_.get(i).x_, (int)points_.get(i).y_,
-                  (int)points_.get(i + 1).x_, (int)points_.get(i + 1).y_);
+      gc.drawLine((int)points_.get(i).x_, height - (int)points_.get(i).y_,
+                  (int)points_.get(i + 1).x_, height - (int)points_.get(i + 1).y_);
     }
 
-    return image;
+    gc.setForeground(oldColor);
   }
 
   private ArrayList<Point> points_;

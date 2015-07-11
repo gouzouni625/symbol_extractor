@@ -1,3 +1,5 @@
+package main.utilities;
+
 /**
  * Class that implements a two dimensional point.
  *
