@@ -3,7 +3,9 @@ package main.utilities;
 import java.util.ArrayList;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 
 public class TraceGroupSWT{
     public TraceGroupSWT(){
@@ -126,7 +128,7 @@ public class TraceGroupSWT{
       return (new Point(centroidX, centroidY));
     }
 
-    public void print(GC gc, Color[] colors, int[] indices){
+    public Image print(Device device, Color[] colors, int[] indices){
       // Work on a copy of this trace group.
       TraceGroupSWT traceGroup = new TraceGroupSWT(this);
 
@@ -146,6 +148,10 @@ public class TraceGroupSWT{
       if(height < 100){
         height = 100;
       }
+
+      Image image = new Image(device, (int)width, (int)height);
+      GC gc = new GC(image);
+      gc.setLineWidth(5);
 
       if(indices == null){
         if(colors == null){
@@ -193,6 +199,7 @@ public class TraceGroupSWT{
         }
       }
 
+      return image;
     }
 
     private ArrayList<TraceSWT> traces_;

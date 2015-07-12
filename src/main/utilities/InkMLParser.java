@@ -1,6 +1,10 @@
 package main.utilities;
 
 public class InkMLParser{
+  public InkMLParser(){
+    traceGroup_ = new TraceGroupSWT();
+  }
+
   public InkMLParser(String xmlData){
     xmlData_ = xmlData;
 
@@ -29,6 +33,10 @@ public class InkMLParser{
       startOfTrace = xmlData.indexOf("<trace>");
       endOfTrace = xmlData.indexOf("</trace>");
     }
+  }
+
+  public void setXMLData(String xmlData){
+    xmlData_ = xmlData;
   }
 
   private String xmlData_;
