@@ -50,14 +50,18 @@ public class SymbolExtractor{
 
       @Override
       public void widgetSelected(SelectionEvent e){
-        try {
-          splitter_.parseNextFile();
+        view_.display_.asyncExec(new Runnable(){
 
-          view_.setImage(splitter_.getImage(view_.display_));
-        }
-        catch(FileNotFoundException exception){
-          exception.printStackTrace();
-        }
+          @Override
+          public void run(){
+            try {
+              showNextImage();
+            }
+            catch(FileNotFoundException e){
+              e.printStackTrace();
+            }
+          }
+        });
       }
 
       @Override
@@ -66,11 +70,15 @@ public class SymbolExtractor{
   }
 
   public void start() throws FileNotFoundException{
-    splitter_.parseNextFile();
-
-    view_.setImage(splitter_.getImage(view_.display_));
+    showNextImage();
 
     view_.start();
+  }
+
+  public void showNextImage() throws FileNotFoundException{
+    splitter_.parseNextFile();
+    view_.setImage(splitter_.getImage(view_.display_));
+    view_.setText(splitter_.getCurrentFileName());
   }
 
   private Splitter splitter_;

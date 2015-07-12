@@ -27,8 +27,6 @@ public class Splitter{
   }
 
   public Image getImage(Device device) throws FileNotFoundException{
-    this.parseNextFile();
-
     return (parser_.traceGroup_.print(device, null, null));
   }
 

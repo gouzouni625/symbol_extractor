@@ -54,6 +54,10 @@ public class MainView{
     label_.pack();
   }
 
+  public void setText(String text){
+    shell_.setText(text);
+  }
+
   public void dispose(){
     inputText_.dispose();
 

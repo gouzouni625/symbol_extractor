@@ -37,6 +37,8 @@ public class InkMLParser{
 
   public void setXMLData(String xmlData){
     xmlData_ = xmlData;
+
+    traceGroup_ = new TraceGroupSWT();
   }
 
   private String xmlData_;
