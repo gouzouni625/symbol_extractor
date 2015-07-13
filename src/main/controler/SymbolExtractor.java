@@ -107,6 +107,32 @@ public class SymbolExtractor{
       @Override
       public void widgetDefaultSelected(SelectionEvent e){}
     });
+
+    view_.saveButton_.addSelectionListener(new SelectionListener(){
+
+      @Override
+      public void widgetSelected(SelectionEvent e){
+        view_.display_.asyncExec(new Runnable(){
+
+          @Override
+          public void run(){
+            String label = view_.inputText_.getText();
+
+            splitter_.save(label);
+
+            try {
+              draw();
+            }
+            catch(FileNotFoundException exception){
+              exception.printStackTrace();
+            }
+          }
+        });
+      }
+
+      @Override
+      public void widgetDefaultSelected(SelectionEvent e){}
+    });
   }
 
   public void start() throws FileNotFoundException{
