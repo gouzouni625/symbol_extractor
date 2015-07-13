@@ -5,8 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
 
 import main.utilities.InkMLParser;
 import main.utilities.TraceGroupSWT;
@@ -27,7 +29,22 @@ public class Splitter{
   }
 
   public Image getImage(Device device) throws FileNotFoundException{
-    return (parser_.traceGroup_.print(device, null, null));
+    Color[] colors = new Color[parser_.traceGroup_.size()];
+    int[] indices = new int[parser_.traceGroup_.size()];
+    for(int i = 0;i < indices.length;i++){
+      indices[i] = i;
+      if(i == highlightedTrace_){
+        colors[i] = new Color(device, new RGB(0, 255, 0));
+      }
+      else if(chosenTraces_.contains(i)){
+        colors[i] = new Color(device, new RGB(255, 165, 0));
+      }
+      else{
+        colors[i] = new Color(device, new RGB(0, 0, 0));
+      }
+    }
+
+    return (parser_.traceGroup_.print(device, colors, indices));
   }
 
   public void parseNextFile() throws FileNotFoundException{
@@ -49,8 +66,6 @@ public class Splitter{
       xmlData += scanner.next();
     }
     scanner.close();
-
-    currentFile_++;
 
     return xmlData;
   }
@@ -82,7 +97,7 @@ public class Splitter{
 
   public void holdTrace(){
     if(chosenTraces_.contains(highlightedTrace_)){
-      chosenTraces_.remove(highlightedTrace_);
+      chosenTraces_.remove(new Integer(highlightedTrace_));
     }
     else{
       chosenTraces_.add(highlightedTrace_);
