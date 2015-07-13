@@ -18,6 +18,12 @@ public class SymbolExtractor{
       @Override
       public void widgetSelected(SelectionEvent e){
         splitter_.nextTrace();
+        try{
+          draw();
+        }
+        catch(FileNotFoundException exception){
+          exception.printStackTrace();
+        }
       }
 
       @Override
@@ -29,6 +35,12 @@ public class SymbolExtractor{
       @Override
       public void widgetSelected(SelectionEvent e){
         splitter_.previousTrace();
+        try{
+          draw();
+        }
+        catch(FileNotFoundException exception){
+          exception.printStackTrace();
+        }
       }
 
       @Override
@@ -40,6 +52,12 @@ public class SymbolExtractor{
       @Override
       public void widgetSelected(SelectionEvent e) {
         splitter_.holdTrace();
+        try{
+          draw();
+        }
+        catch(FileNotFoundException exception){
+          exception.printStackTrace();
+        }
       }
 
       @Override
@@ -77,8 +95,12 @@ public class SymbolExtractor{
 
   public void showNextImage() throws FileNotFoundException{
     splitter_.parseNextFile();
-    view_.setImage(splitter_.getImage(view_.display_));
+    draw();
     view_.setText(splitter_.getCurrentFileName());
+  }
+
+  public void draw() throws FileNotFoundException{
+    view_.setImage(splitter_.getImage(view_.display_));
   }
 
   private Splitter splitter_;
