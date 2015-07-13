@@ -186,7 +186,7 @@ public class Splitter{
 
     public static byte stringToByte(String stringValue){
       for(Symbol symbol : Symbol.values()){
-        if(symbol.toString() == stringValue){
+        if(symbol.toString().equals(stringValue)){
           return symbol.toByte();
         }
       }
