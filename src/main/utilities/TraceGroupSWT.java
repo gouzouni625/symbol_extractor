@@ -155,7 +155,7 @@ public class TraceGroupSWT{
         height = 100;
       }
 
-      Image image = new Image(device, (int)width, (int)height);
+      Image image = new Image(device, (int)(1.10 * width), (int)(1.10 * height));
       GC gc = new GC(image);
       gc.setLineWidth(5);
 
