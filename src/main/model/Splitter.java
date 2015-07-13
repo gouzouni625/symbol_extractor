@@ -73,12 +73,7 @@ public class Splitter{
   }
 
   public String getCurrentFileName(){
-    if(currentFile_ >= equationFiles_.length){
-      return Splitter.NO_MORE_FILES;
-    }
-    else{
-      return (equationFiles_[currentFile_].getName());
-    }
+    return (equationFiles_[currentFile_].getName());
   }
 
   public void parsePreviousFile() throws FileNotFoundException{
@@ -183,7 +178,5 @@ public class Splitter{
 
   private File[] equationFiles_;
   private int currentFile_;
-
-  public static final String NO_MORE_FILES = "NO_MORE_FILES";
 
 }
