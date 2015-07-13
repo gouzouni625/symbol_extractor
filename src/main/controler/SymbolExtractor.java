@@ -165,13 +165,13 @@ public class SymbolExtractor{
   public void showNextImage() throws FileNotFoundException{
     splitter_.parseNextFile();
     draw();
-    view_.setText(splitter_.getCurrentFileName());
+    view_.setText(splitter_.getCurrentFileName() + " " + splitter_.parser_.getEquation());
   }
 
   public void showPreviousImage() throws FileNotFoundException{
     splitter_.parsePreviousFile();
     draw();
-    view_.setText(splitter_.getCurrentFileName());
+    view_.setText(splitter_.getCurrentFileName() + " " + splitter_.parser_.getEquation());
   }
 
   public void draw() throws FileNotFoundException{
