@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
 
 public class TraceSWT{
   public TraceSWT(){
@@ -112,6 +115,20 @@ public class TraceSWT{
     }
 
     gc.setForeground(oldColor);
+  }
+
+  public Mat printOpenCV(Mat image, int thickness){
+    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+    int height = image.rows();
+
+    for(int i = 0;i < points_.size() - 1;i++){
+      Core.line(image, new org.opencv.core.Point(points_.get(i).x_, height - points_.get(i).y_),
+                       new org.opencv.core.Point(points_.get(i + 1).x_, height - points_.get(i + 1).y_),
+                       new Scalar(255, 255, 255), thickness);
+    }
+
+    return image;
   }
 
   private ArrayList<Point> points_;
