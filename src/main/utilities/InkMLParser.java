@@ -3,16 +3,25 @@ package main.utilities;
 public class InkMLParser{
   public InkMLParser(){
     traceGroup_ = new TraceGroupSWT();
+
+    equation_ = "";
   }
 
   public InkMLParser(String xmlData){
     xmlData_ = xmlData;
 
     traceGroup_ = new TraceGroupSWT();
+
+    equation_ = "";
   }
 
   public void parse(){
     String xmlData = new String(xmlData_);
+
+    int startOfAnnotation = xmlData.indexOf("<annotation type=\"equationInTeX\">");
+    int endOfAnnotation = xmlData.indexOf("</annotation>");
+
+    equation_ = xmlData.substring(startOfAnnotation + ("<annotation type=\"equationInTeX\">").length(), endOfAnnotation);
 
     int startOfTrace = xmlData.indexOf("<trace>");
     int endOfTrace = xmlData.indexOf("</trace>");
@@ -41,7 +50,13 @@ public class InkMLParser{
     traceGroup_ = new TraceGroupSWT();
   }
 
+  public String getEquation(){
+    return equation_;
+  }
+
   private String xmlData_;
+
+  private String equation_;
 
   public TraceGroupSWT traceGroup_;
 
