@@ -151,7 +151,7 @@ public class Splitter{
 
     Mat image = savable.printOpenCV(new Size(28, 28));
 
-    Highgui.imwrite(outputPath_ + "/" + filename, image);
+    Highgui.imwrite(outputPath_ + "/" + label + "/" + filename, image);
 
     dataSet_.add(new DataSample(Utilities.imageToByteArray(image), Symbol.stringToByte(label)));
 
@@ -182,7 +182,8 @@ public class Splitter{
     EQUALS(11, "=", (byte)0x0B),
     VARIABLE_X(12, "var_x", (byte)0x0C),
     VARIABLE_Y(13, "var_y", (byte)0x0D),
-    HORIZONTAL_LINE(14, "-", (byte)0x0E);
+    HORIZONTAL_LINE(14, "-", (byte)0x0E),
+    EXP(15, "e", (byte)0x0F);
 
     public static byte stringToByte(String stringValue){
       for(Symbol symbol : Symbol.values()){
