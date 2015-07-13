@@ -64,7 +64,29 @@ public class SymbolExtractor{
       public void widgetDefaultSelected(SelectionEvent e){}
     });
 
-    view_.submitButton_.addSelectionListener(new SelectionListener(){
+    view_.previousImageButton_.addSelectionListener(new SelectionListener(){
+
+      @Override
+      public void widgetSelected(SelectionEvent e){
+        view_.display_.asyncExec(new Runnable(){
+
+          @Override
+          public void run(){
+            try {
+              showPreviousImage();
+            }
+            catch(FileNotFoundException e){
+              e.printStackTrace();
+            }
+          }
+        });
+      }
+
+      @Override
+      public void widgetDefaultSelected(SelectionEvent e){}
+    });
+
+    view_.nextImageButton_.addSelectionListener(new SelectionListener(){
 
       @Override
       public void widgetSelected(SelectionEvent e){
@@ -95,6 +117,12 @@ public class SymbolExtractor{
 
   public void showNextImage() throws FileNotFoundException{
     splitter_.parseNextFile();
+    draw();
+    view_.setText(splitter_.getCurrentFileName());
+  }
+
+  public void showPreviousImage() throws FileNotFoundException{
+    splitter_.parsePreviousFile();
     draw();
     view_.setText(splitter_.getCurrentFileName());
   }

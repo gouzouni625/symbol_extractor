@@ -29,8 +29,14 @@ public class MainView{
 
     inputText_ = new Text(shell_, SWT.BORDER);
 
-    submitButton_ = new Button(shell_, SWT.PUSH);
-    submitButton_.setText("submit");
+    previousImageButton_ = new Button(shell_, SWT.PUSH);
+    previousImageButton_.setText("previous image");
+
+    nextImageButton_ = new Button(shell_, SWT.PUSH);
+    nextImageButton_.setText("next image");
+
+    saveButton_ = new Button(shell_, SWT.PUSH);
+    saveButton_.setText("save");
 
     label_ = new Label(shell_, SWT.BORDER);
   }
@@ -62,7 +68,7 @@ public class MainView{
   public void dispose(){
     inputText_.dispose();
 
-    submitButton_.dispose();
+    nextImageButton_.dispose();
     previousButton_.dispose();
     nextButton_.dispose();
     holdButton_.dispose();
@@ -80,7 +86,9 @@ public class MainView{
   public Button nextButton_;
   public Button previousButton_;
   public Button holdButton_;
-  public Button submitButton_;
+  public Button saveButton_;
+  public Button previousImageButton_;
+  public Button nextImageButton_;
 
   public Text inputText_;
 
