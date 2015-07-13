@@ -9,6 +9,12 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.highgui.Highgui;
+
+import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
 
 import main.utilities.InkMLParser;
 import main.utilities.TraceGroupSWT;
@@ -126,46 +132,29 @@ public class Splitter{
     }
   }
 
-  public void save(int label){
+  public void save(String label){
+    String filename = "";
+
+    filename = this.getCurrentFileName().replaceAll(".xml", "") + "_" + label + ".tiff";
+
+    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+    TraceGroupSWT savable = new TraceGroupSWT();
+
+    for(int i = 0;i < chosenTraces_.size();i++){
+      savable.add(parser_.traceGroup_.get(chosenTraces_.get(i)));
+    }
+
+    Mat image = savable.printOpenCV(new Size(28, 28));
+
+    Highgui.imwrite(outputPath_ + "/" + filename, image);
+
+    this.reset();
   }
 
   public void reset(){
     highlightedTrace_ = 0;
     chosenTraces_.clear();
-  }
-
-  private enum Symbol{
-    ONE(1, "1"),
-    TWO(2, "2"),
-    THREE(3, "3"),
-    FOUR(4, "4"),
-    FIVE(5, "5"),
-    SIX(6, "6"),
-    SEVEN(7, "7"),
-    EIGHT(8, "8"),
-    NINE(9, "9"),
-    PLUS(10, "+"),
-    EQUALS(11, "="),
-    VARIABLE_X(12, "var_x"),
-    VARIABLE_Y(13, "var_y"),
-    HORIZONTAL_LINE(14, "-");
-
-    private Symbol(int intValue, String stringValue){
-      intValue_ = intValue;
-      stringValue_ = stringValue;
-    }
-
-    @Override
-    public String toString(){
-      return stringValue_;
-    }
-
-    public int toInt(){
-      return intValue_;
-    }
-
-    private int intValue_;
-    private String stringValue_;
   }
 
   private int highlightedTrace_;
