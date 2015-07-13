@@ -18,8 +18,6 @@ public class MainView{
     shell_.setText("Main View");
     shell_.setLayout(new GridLayout(1, false));
 
-    label_ = new Label(shell_, SWT.BORDER);
-
     previousButton_ = new Button(shell_, SWT.PUSH);
     previousButton_.setText("previous");
 
@@ -33,6 +31,8 @@ public class MainView{
 
     submitButton_ = new Button(shell_, SWT.PUSH);
     submitButton_.setText("submit");
+
+    label_ = new Label(shell_, SWT.BORDER);
   }
 
   public void start(){
@@ -52,6 +52,7 @@ public class MainView{
     label_.setImage(image);
 
     label_.pack();
+    shell_.pack();
   }
 
   public void setText(String text){
