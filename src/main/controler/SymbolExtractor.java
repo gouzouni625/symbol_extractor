@@ -1,6 +1,7 @@
 package main.controler;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -128,6 +129,26 @@ public class SymbolExtractor{
             }
           }
         });
+      }
+
+      @Override
+      public void widgetDefaultSelected(SelectionEvent e){}
+    });
+
+    view_.closeButton_.addSelectionListener(new SelectionListener(){
+
+      @Override
+      public void widgetSelected(SelectionEvent exception){
+        try {
+          splitter_.exit();
+
+          view_.shell_.dispose();
+
+          System.exit(0);
+        }
+        catch(IOException e){
+          e.printStackTrace();
+        }
       }
 
       @Override

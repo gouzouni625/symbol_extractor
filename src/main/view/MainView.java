@@ -3,6 +3,7 @@ package main.view;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
@@ -37,6 +38,11 @@ public class MainView{
 
     saveButton_ = new Button(shell_, SWT.PUSH);
     saveButton_.setText("save");
+    saveButton_.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, true, true, 1, 1));
+
+    closeButton_ = new Button(shell_, SWT.PUSH);
+    closeButton_.setText("exit");
+    closeButton_.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
 
     label_ = new Label(shell_, SWT.BORDER);
   }
@@ -74,7 +80,7 @@ public class MainView{
     holdButton_.dispose();
 
     label_.dispose();
-    shell_.dispose();
+    //shell_.dispose();
     display_.dispose();
   }
 
@@ -89,6 +95,7 @@ public class MainView{
   public Button saveButton_;
   public Button previousImageButton_;
   public Button nextImageButton_;
+  public Button closeButton_;
 
   public Text inputText_;
 

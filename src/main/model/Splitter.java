@@ -2,6 +2,7 @@ package main.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,10 +15,11 @@ import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 
-import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
-
+import main.utilities.DataSet;
 import main.utilities.InkMLParser;
 import main.utilities.TraceGroupSWT;
+import main.utilities.Utilities;
+import main.utilities.DataSample;
 
 public class Splitter{
   public Splitter(String inputPath, String outputPath){
@@ -32,6 +34,8 @@ public class Splitter{
     File inputDirectory = new File(inputPath_);
     equationFiles_ = inputDirectory.listFiles();
     currentFile_ = -1;
+
+    dataSet_ = new DataSet();
   }
 
   public Image getImage(Device device) throws FileNotFoundException{
@@ -149,12 +153,69 @@ public class Splitter{
 
     Highgui.imwrite(outputPath_ + "/" + filename, image);
 
+    dataSet_.add(new DataSample(Utilities.imageToByteArray(image), Symbol.stringToByte(label)));
+
     this.reset();
   }
 
   public void reset(){
     highlightedTrace_ = 0;
     chosenTraces_.clear();
+  }
+
+  public void exit() throws IOException{
+    dataSet_.saveIDXFormat(outputPath_ + "data", outputPath_ + "labels");
+  }
+
+  private enum Symbol{
+    ZERO(0, "0", (byte)0x00),
+    ONE(1, "1", (byte)0x01),
+    TWO(2, "2", (byte)0x02),
+    THREE(3, "3", (byte)0x03),
+    FOUR(4, "4", (byte)0x04),
+    FIVE(5, "5", (byte)0x05),
+    SIX(6, "6", (byte)0x06),
+    SEVEN(7, "7", (byte)0x07),
+    EIGHT(8, "8", (byte)0x08),
+    NINE(9, "9", (byte)0x09),
+    PLUS(10, "+", (byte)0x0A),
+    EQUALS(11, "=", (byte)0x0B),
+    VARIABLE_X(12, "var_x", (byte)0x0C),
+    VARIABLE_Y(13, "var_y", (byte)0x0D),
+    HORIZONTAL_LINE(14, "-", (byte)0x0E);
+
+    public static byte stringToByte(String stringValue){
+      for(Symbol symbol : Symbol.values()){
+        if(symbol.toString() == stringValue){
+          return symbol.toByte();
+        }
+      }
+
+      return (byte)0x00;
+    }
+
+    private Symbol(int intValue, String stringValue, byte byteValue){
+      intValue_ = intValue;
+      stringValue_ = stringValue;
+      byteValue_ = byteValue;
+    }
+
+    @Override
+    public String toString(){
+      return stringValue_;
+    }
+
+    public int toInt(){
+      return intValue_;
+    }
+
+    public byte toByte(){
+      return byteValue_;
+    }
+
+    private int intValue_;
+    private String stringValue_;
+    private byte byteValue_;
   }
 
   private int highlightedTrace_;
@@ -167,5 +228,7 @@ public class Splitter{
 
   private File[] equationFiles_;
   private int currentFile_;
+
+  private DataSet dataSet_;
 
 }
