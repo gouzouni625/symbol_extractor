@@ -2,6 +2,8 @@ package main.utilities;
 
 public class InkMLParser{
   public InkMLParser(){
+    xmlData_ = "";
+
     traceGroup_ = new TraceGroupSWT();
 
     equation_ = "";

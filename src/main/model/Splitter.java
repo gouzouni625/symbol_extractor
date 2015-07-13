@@ -22,7 +22,7 @@ import main.utilities.Utilities;
 import main.utilities.DataSample;
 
 public class Splitter{
-  public Splitter(String inputPath, String outputPath){
+  public Splitter(String inputPath, String outputPath) throws FileNotFoundException{
     inputPath_ = inputPath;
     outputPath_ = outputPath;
 
@@ -36,6 +36,8 @@ public class Splitter{
     currentFile_ = -1;
 
     dataSet_ = new DataSet();
+
+    processedFiles_ = new ArrayList<String>();
   }
 
   public Image getImage(Device device) throws FileNotFoundException{
@@ -58,6 +60,8 @@ public class Splitter{
   }
 
   public void parseNextFile() throws FileNotFoundException{
+    processedFiles_.add(this.getCurrentFileName());
+
     parser_.setXMLData(this.getNextFile());
     parser_.parse();
 
@@ -83,10 +87,16 @@ public class Splitter{
   }
 
   public String getCurrentFileName(){
+    if(currentFile_ < 0 || currentFile_ >= equationFiles_.length){
+      return "";
+    }
+
     return (equationFiles_[currentFile_].getName());
   }
 
   public void parsePreviousFile() throws FileNotFoundException{
+    processedFiles_.add(this.getCurrentFileName());
+
     parser_.setXMLData(this.getPreviousFile());
     parser_.parse();
 
@@ -165,6 +175,10 @@ public class Splitter{
 
   public void exit() throws IOException{
     dataSet_.saveIDXFormat(outputPath_ + "data", outputPath_ + "labels");
+
+    for(int i = 0;i < processedFiles_.size();i++){
+      System.out.println(processedFiles_.get(i));
+    }
   }
 
   private enum Symbol{
@@ -229,6 +243,8 @@ public class Splitter{
 
   private File[] equationFiles_;
   private int currentFile_;
+
+  private ArrayList<String> processedFiles_;
 
   private DataSet dataSet_;
 
