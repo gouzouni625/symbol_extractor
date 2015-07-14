@@ -61,6 +61,10 @@ public class MainView{
   }
 
   public void setImage(Image image){
+    if(label_.getImage() != null){
+      label_.getImage().dispose();
+    }
+
     label_.setImage(image);
 
     label_.pack();
