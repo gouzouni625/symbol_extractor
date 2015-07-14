@@ -199,7 +199,7 @@ public class Splitter{
 
     dataSet_.add(new DataSample(Utilities.imageToByteArray(image), Symbol.stringToByte(label)));
 
-    this.reset();
+    chosenTraces_.clear();
   }
 
   public void reset(){
