@@ -41,6 +41,7 @@ public class Splitter{
 
     processedFiles_ = new ArrayList<String>();
     filePartition_ = new ArrayList<ArrayList<Integer>>();
+    labels_ = new ArrayList<String>();
   }
 
   public Image getImage(Device device) throws FileNotFoundException{
@@ -69,6 +70,7 @@ public class Splitter{
       this.saveFilePartition();
     }
     filePartition_ = new ArrayList<ArrayList<Integer>>();
+    labels_ = new ArrayList<String>();
 
     parser_.setXMLData(this.getNextFile());
     parser_.parse();
@@ -86,7 +88,7 @@ public class Splitter{
         printWriter.print(filePartition_.get(i).get(j) + ", ");
       }
 
-      printWriter.println();
+      printWriter.println(", " + labels_.get(i));
     }
 
     printWriter.close();
@@ -177,6 +179,7 @@ public class Splitter{
       symbol.add(chosenTraces_.get(i));
     }
     filePartition_.add(symbol);
+    labels_.add(label);
 
     String filename = "";
 
@@ -309,6 +312,7 @@ public class Splitter{
   private ArrayList<Integer> chosenTraces_;
 
   private ArrayList<ArrayList<Integer>> filePartition_;
+  private ArrayList<String> labels_;
 
   private String inputPath_;
   private String outputPath_;
