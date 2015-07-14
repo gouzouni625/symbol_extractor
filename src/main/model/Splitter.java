@@ -2,7 +2,9 @@ package main.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -38,6 +40,7 @@ public class Splitter{
     dataSet_ = new DataSet();
 
     processedFiles_ = new ArrayList<String>();
+    filePartition_ = new ArrayList<ArrayList<Integer>>();
   }
 
   public Image getImage(Device device) throws FileNotFoundException{
@@ -62,10 +65,31 @@ public class Splitter{
   public void parseNextFile() throws FileNotFoundException{
     processedFiles_.add(this.getCurrentFileName());
 
+    if(currentFile_ >= 0){
+      this.saveFilePartition();
+    }
+    filePartition_ = new ArrayList<ArrayList<Integer>>();
+
     parser_.setXMLData(this.getNextFile());
     parser_.parse();
 
     this.reset();
+  }
+
+  private void saveFilePartition() throws FileNotFoundException{
+    FileOutputStream fileOutputStream = new FileOutputStream(outputPath_ + "/partitions/" + getCurrentFileName());
+    PrintWriter printWriter = new PrintWriter(fileOutputStream);
+
+    printWriter.println(parser_.traceGroup_.size());
+    for(int i = 0;i < filePartition_.size();i++){
+      for(int j = 0;j < filePartition_.get(i).size();j++){
+        printWriter.print(filePartition_.get(i).get(j) + ", ");
+      }
+
+      printWriter.println();
+    }
+
+    printWriter.close();
   }
 
   public String getNextFile() throws FileNotFoundException{
@@ -147,6 +171,13 @@ public class Splitter{
   }
 
   public void save(String label){
+    ArrayList<Integer> symbol = new ArrayList<Integer>();
+
+    for(int i = 0;i < chosenTraces_.size();i++){
+      symbol.add(chosenTraces_.get(i));
+    }
+    filePartition_.add(symbol);
+
     String filename = "";
 
     filename = this.getCurrentFileName().replaceAll(".xml", "") + "_" + label + ".tiff";
@@ -196,7 +227,7 @@ public class Splitter{
     EQUALS(11, "=", (byte)0x0B),
     LOWER_X(12, "x", (byte)0x0C),
     LOWER_Y(13, "y", (byte)0x0D),
-    HORIZONTAL_LINE(14, "-", (byte)0x0E),
+    HORIZONTAL_LINE(14, "_", (byte)0x0E),
     CAPITAL_A(15, "A", (byte)0x0F),
     CAPITAL_B(16, "B", (byte)0x10),
     CAPITAL_C(17, "C", (byte)0x11),
@@ -276,6 +307,8 @@ public class Splitter{
 
   private int highlightedTrace_;
   private ArrayList<Integer> chosenTraces_;
+
+  private ArrayList<ArrayList<Integer>> filePartition_;
 
   private String inputPath_;
   private String outputPath_;
